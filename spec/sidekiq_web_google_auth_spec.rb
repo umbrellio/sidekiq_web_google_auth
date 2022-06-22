@@ -8,11 +8,20 @@ RSpec.describe SidekiqWebGoogleAuth do
   include Rack::Test::Methods
 
   def app
-    @app ||= Sidekiq::Web.new
+    Sidekiq::Web.new.tap do |app|
+      app.use(Rack::Session::Cookie, secret: "test")
+      app.use(SidekiqWebGoogleAuth::Builder) do
+        provider(
+          "test_client_id",
+          "test_client_secret",
+          authorized_emails: %w[test@mail.com],
+        )
+      end
+    end
   end
 
   def perform_oauth!
-    get(sidekiq_panel_url)
+    get("/")
     expect(last_response.status).to eq(302)
     expect(last_response.header["Location"]).to eq("http://example.org#{auth_page_url}")
 
@@ -26,27 +35,10 @@ RSpec.describe SidekiqWebGoogleAuth do
     get(callback_url)
   end
 
-  let(:sidekiq_panel_url) { "/" }
-  let(:auth_page_url) { "#{sidekiq_panel_url}auth/page" }
-  let(:omniauth_url) { "#{sidekiq_panel_url}auth/oauth" }
-  let(:callback_url) { "#{sidekiq_panel_url}auth/oauth/callback" }
+  let(:auth_page_url) { "/auth/page" }
+  let(:omniauth_url) { "/auth/oauth" }
+  let(:callback_url) { "/auth/oauth/callback" }
   let(:callback_email) { "test@mail.com" }
-
-  before do
-    app.use(Rack::Session::Cookie, secret: SecureRandom.hex(32))
-    app.use(SidekiqWebGoogleAuth::Builder) do
-      provider(
-        "test_client_id",
-        "test_client_secret",
-        authorized_emails: %w[test@mail.com],
-      )
-    end
-  end
-
-  before do
-    OmniAuth.config.allowed_request_methods = [:get]
-    OmniAuth.config.silence_get_warning = true
-  end
 
   before { OmniAuth.config.add_mock(:oauth, info: { email: callback_email }) }
 
@@ -55,7 +47,7 @@ RSpec.describe SidekiqWebGoogleAuth do
   it "authenticates user" do
     perform_oauth!
     expect(last_response.status).to eq(302)
-    expect(last_response.header["Location"]).to eq("http://example.org#{sidekiq_panel_url}")
+    expect(last_response.header["Location"]).to eq("http://example.org/")
     expect(last_request.env.dig("rack.session", "authenticated")).to be_truthy
   end
 
@@ -70,13 +62,13 @@ RSpec.describe SidekiqWebGoogleAuth do
     end
   end
 
-  describe "logging out" do
+  context "logging out" do
     it "clears user session and redirect to root" do
       perform_oauth!
       expect(last_request.env.dig("rack.session", "authenticated")).to be_truthy
-      get("#{sidekiq_panel_url}logout")
+      get("/logout")
       expect(last_response.status).to eq(302)
-      expect(last_response.header["Location"]).to eq("http://example.org#{auth_page_url}")
+      expect(last_response.header["Location"]).to eq("http://example.org/")
       expect(last_request.env.dig("rack.session", "authenticated")).to be_falsey
     end
   end
