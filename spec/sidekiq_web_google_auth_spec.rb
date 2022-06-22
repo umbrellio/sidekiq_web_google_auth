@@ -2,7 +2,6 @@
 
 require "sidekiq/web"
 require "rack/test"
-require "omniauth-google-oauth2"
 
 RSpec.describe SidekiqWebGoogleAuth do
   include Rack::Test::Methods
