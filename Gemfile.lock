@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    sidekiq_web_google_auth (0.1.0)
+    sidekiq_web_google_auth (0.1.1)
       omniauth
       omniauth-google-oauth2
 
