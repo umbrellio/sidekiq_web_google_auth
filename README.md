@@ -1,0 +1,52 @@
+# SidekiqWebGoogleAuth
+
+Google OAuth for Sidekiq::Web
+
+## Installation
+
+Add this line to your application's Gemfile:
+
+```ruby
+gem 'sidekiq_web_google_auth'
+```
+
+And then execute:
+
+    $ bundle install
+
+Or install it yourself as:
+
+    $ gem install sidekiq_web_google_auth
+
+## Usage
+
+Initialize builder:
+
+```ruby
+    Sidekiq::Web.use(SidekiqWebGoogleAuth::Builder) do
+      provider(
+        "example_client_id", # Google OAuth client ID
+        "example_client_secret", # Google OAuth client secret
+        authorized_emails: %w[test@mail.com], # List of authorized emails
+      )
+   end
+```
+
+## Contributing
+
+Bug reports and pull requests are welcome on GitHub at https://github.com/umbrellio/sidekiq_web_google_auth.
+
+
+## License
+
+The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+
+## Authors
+
+Team Umbrellio
+
+---
+
+<a href="https://github.com/umbrellio/">
+<img style="float: left;" src="https://umbrellio.github.io/Umbrellio/supported_by_umbrellio.svg" alt="Supported by Umbrellio" width="439" height="72">
+</a>
