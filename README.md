@@ -1,4 +1,7 @@
 # SidekiqWebGoogleAuth
+[![Build Status](https://travis-ci.org/umbrellio/sidekiq_web_google_auth.svg?branch=master)](https://travis-ci.org/umbrellio/sidekiq_web_google_auth)
+[![Coverage Status](https://coveralls.io/repos/github/umbrellio/sidekiq_web_google_auth/badge.svg?branch=master)](https://coveralls.io/github/umbrellio/sidekiq_web_google_auth?branch=master)
+[![Gem Version](https://badge.fury.io/rb/sidekiq_web_google_auth.svg)](https://badge.fury.io/rb/sidekiq_web_google_auth)
 
 Google OAuth for Sidekiq::Web
 

@@ -49,6 +49,7 @@ RSpec.describe SidekiqWebGoogleAuth do
   end
 
   before { OmniAuth.config.add_mock(:oauth, info: { email: callback_email }) }
+
   after { OmniAuth.config.mock_auth[:oauth] = nil }
 
   it "authenticates user" do

@@ -7,7 +7,7 @@ module SidekiqWebGoogleAuth
       @authorized_emails = authorized_emails
     end
 
-    def registered(app)
+    def registered(app) # rubocop:disable Metrics/MethodLength
       authorized_emails = @authorized_emails
 
       app.before do
@@ -27,7 +27,9 @@ module SidekiqWebGoogleAuth
           session[:authenticated] = true
           redirect(root_path)
         else
-          ::OmniAuth.logger.warn "Someone unauthorized is trying to gain access to Sidekiq: #{auth.info}"
+          OmniAuth.logger.warn(
+            "Someone unauthorized is trying to gain access to Sidekiq: #{auth.info}",
+          )
           redirect("#{root_path}auth/page")
         end
       end
