@@ -10,29 +10,19 @@ module SidekiqWebGoogleAuth
 
     def initialize(app, _options = nil)
       @app = app
-      @initialized = false
     end
 
     def call(env)
       accept?(env) ? admit(env) : deny(env)
     end
 
-    def provider(config, *args, authorized_emails: [], authorized_emails_domains: [], **options, &block)
-      invalid_arguments! if authorized_emails.empty? && authorized_emails_domains.empty?
+    def provider(*args, **options, &block)
       super("google_oauth2", *args, options.merge(name: "oauth"), &block)
-
-      SidekiqWebGoogleAuth::Extension.authorized_emails = authorized_emails
-      SidekiqWebGoogleAuth::Extension.authorized_emails_domains = authorized_emails_domains
-      config.register(
-        SidekiqWebGoogleAuth::Extension, name: "google-auth", tab: ["Logout"], index: ["logout"],
-      )
-      @initialized = true
     end
 
     private
 
     def accept?(env)
-      return true unless @initialized
       return true if env["PATH_INFO"].start_with?("/auth")
       session(env)[:authenticated]
     end
