@@ -8,6 +8,14 @@ module SidekiqWebGoogleAuth
 
     ARGUMENT_ERROR = "You must provide authorized_emails or authorized_emails_domains (or both)"
 
+    def initialize(app, _options = nil)
+      @app = app
+    end
+
+    def call(env)
+      accept?(env) ? admit(env) : deny
+    end
+
     def provider(config, *args, authorized_emails: [], authorized_emails_domains: [], **options, &block)
       invalid_arguments! if authorized_emails.empty? && authorized_emails_domains.empty?
       super("google_oauth2", *args, options.merge(name: "oauth"), &block)
@@ -20,6 +28,18 @@ module SidekiqWebGoogleAuth
     end
 
     private
+
+    def accept?(env)
+      session(env)[:authenticated]
+    end
+
+    def admit(env)
+      @app.call(env)
+    end
+
+    def deny
+      [403, {Rack::CONTENT_TYPE => "text/plain"}, ["Forbidden"]]
+    end
 
     def invalid_arguments!
       raise ArgumentError.new(ARGUMENT_ERROR)
