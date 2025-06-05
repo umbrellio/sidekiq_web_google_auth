@@ -10,6 +10,7 @@ module SidekiqWebGoogleAuth
 
     def initialize(app, _options = nil)
       @app = app
+      @initialized = false
     end
 
     def call(env)
@@ -25,11 +26,13 @@ module SidekiqWebGoogleAuth
       config.register(
         SidekiqWebGoogleAuth::Extension, name: "google-auth", tab: ["Logout"], index: ["logout"],
       )
+      @initialized = true
     end
 
     private
 
     def accept?(env)
+      return true unless @initialized
       return true if env["PATH_INFO"].start_with?("/auth")
       session(env)[:authenticated]
     end
