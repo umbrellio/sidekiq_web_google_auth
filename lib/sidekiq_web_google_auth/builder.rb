@@ -30,7 +30,7 @@ module SidekiqWebGoogleAuth
     private
 
     def accept?(env)
-      return true if env["PATH_INFO"] == "/auth/page"
+      return true if env["PATH_INFO"].start_with?("/auth")
       session(env)[:authenticated]
     end
 
