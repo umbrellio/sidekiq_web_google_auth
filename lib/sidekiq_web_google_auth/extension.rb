@@ -15,7 +15,7 @@ module SidekiqWebGoogleAuth
       end
 
       def registered(app) # rubocop:disable Metrics/MethodLength
-        app.before do
+        app.match("*") do
           if !session[:authenticated] && !request.path_info.start_with?("/auth")
             redirect("#{root_path}auth/page")
           end
@@ -44,8 +44,6 @@ module SidekiqWebGoogleAuth
           session.clear
           redirect(root_path)
         end
-
-        app.tabs["Logout"] = "logout"
       end
     end
   end
