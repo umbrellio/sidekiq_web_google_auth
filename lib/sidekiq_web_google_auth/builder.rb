@@ -14,7 +14,7 @@ module SidekiqWebGoogleAuth
 
       SidekiqWebGoogleAuth::Extension.authorized_emails = authorized_emails
       SidekiqWebGoogleAuth::Extension.authorized_emails_domains = authorized_emails_domains
-      config.use(SidekiqWebGoogleAuth::Extension)
+      config.register(SidekiqWebGoogleAuth::Extension, name: "google-auth", tab: [], index: [])
     end
 
     private
