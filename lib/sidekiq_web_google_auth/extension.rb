@@ -15,12 +15,6 @@ module SidekiqWebGoogleAuth
       end
 
       def registered(app) # rubocop:disable Metrics/MethodLength
-        app.route(:head, :get, :post, :put, :patch, :delete, /.*/) do
-          if !session[:authenticated] && !request.path_info.start_with?("/auth")
-            redirect("#{root_path}auth/page")
-          end
-        end
-
         app.get "/auth/page" do
           "Please <a href='#{root_path}auth/oauth'>authenticate via Google</a>."
         end

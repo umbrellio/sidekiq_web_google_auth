@@ -38,7 +38,11 @@ module SidekiqWebGoogleAuth
     end
 
     def deny
-      [403, {Rack::CONTENT_TYPE => "text/plain"}, ["Forbidden"]]
+      [302, { "Location" => "/auth/page" }, []]
+    end
+
+    def session(env)
+      env["rack.session"]
     end
 
     def invalid_arguments!
