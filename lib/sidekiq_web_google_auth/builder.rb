@@ -38,7 +38,8 @@ module SidekiqWebGoogleAuth
     end
 
     def deny(env)
-      [302, { "Location" => "#{env["PATH_INFO"]}/auth/page" }, []]
+      path_info = ::Rack::Utils.unescape_path env["PATH_INFO"]
+      [302, { "Location" => "#{path_info}/auth/page" }, []]
     end
 
     def session(env)
