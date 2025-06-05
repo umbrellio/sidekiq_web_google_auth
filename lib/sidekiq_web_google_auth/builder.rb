@@ -38,7 +38,7 @@ module SidekiqWebGoogleAuth
     end
 
     def deny(env)
-      [302, { "Location" => "auth/page" }, []]
+      [302, { "Location" => "#{root_path}auth/page" }, []]
     end
 
     def session(env)
