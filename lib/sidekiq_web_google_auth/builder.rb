@@ -13,7 +13,7 @@ module SidekiqWebGoogleAuth
     end
 
     def call(env)
-      accept?(env) ? admit(env) : deny
+      accept?(env) ? admit(env) : deny(env)
     end
 
     def provider(config, *args, authorized_emails: [], authorized_emails_domains: [], **options, &block)
@@ -37,8 +37,8 @@ module SidekiqWebGoogleAuth
       @app.call(env)
     end
 
-    def deny
-      [302, { "Location" => "/auth/page" }, []]
+    def deny(env)
+      [302, { "Location" => "#{env["PATH_INFO"]}/auth/page" }, []]
     end
 
     def session(env)
