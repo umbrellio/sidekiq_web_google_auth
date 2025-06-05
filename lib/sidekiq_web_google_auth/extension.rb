@@ -15,7 +15,7 @@ module SidekiqWebGoogleAuth
       end
 
       def registered(app) # rubocop:disable Metrics/MethodLength
-        app.match("*") do
+        app.route(:head, :get, :post, :put, :patch, :delete, /.*/) do
           if !session[:authenticated] && !request.path_info.start_with?("/auth")
             redirect("#{root_path}auth/page")
           end
