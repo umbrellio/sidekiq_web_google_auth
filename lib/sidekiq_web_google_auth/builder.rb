@@ -3,7 +3,7 @@
 require_relative "extension"
 
 module SidekiqWebGoogleAuth
-  class Builder < OmniAuth::Builder
+  class Builder < Rack::Builder
     class ArgumentError < StandardError; end
 
     ARGUMENT_ERROR = "You must provide authorized_emails or authorized_emails_domains (or both)"
@@ -14,10 +14,6 @@ module SidekiqWebGoogleAuth
 
     def call(env)
       accept?(env) ? admit(env) : deny(env)
-    end
-
-    def provider(*args, **options, &block)
-      super("google_oauth2", *args, options.merge(name: "oauth"), &block)
     end
 
     private
