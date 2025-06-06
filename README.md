@@ -26,16 +26,13 @@ Or install it yourself as:
 Initialize builder:
 
 ```ruby
-Sidekiq::Web.configure do |sidekiq_config|
-  SidekiqWebGoogleAuth.load(
-    sidekiq_config,
-    client_id: "example_client_id", # Google OAuth client ID
-    client_secret: "example_client_secret", # Google OAuth secret
-    # You must provide at least one of: authorized_emails, authorized_email_domains
-    authorized_emails: %w[test@mail.com], # List of authorized emails
-    authorized_emails_domains: %w[mail.com], # List of authorized emails domains
-  )
-end
+SidekiqWebGoogleAuth.setup!(
+  client_id: "example_client_id", # Google OAuth client ID
+  client_secret: "example_client_secret", # Google OAuth secret
+  # You must provide at least one of: authorized_emails, authorized_email_domains
+  authorized_emails: %w[test@mail.com], # List of authorized emails
+  authorized_emails_domains: %w[mail.com], # List of authorized emails domains
+)
 ```
 
 ## Contributing
