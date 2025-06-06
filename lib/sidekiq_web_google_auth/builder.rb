@@ -3,24 +3,33 @@
 require_relative "extension"
 
 module SidekiqWebGoogleAuth
-  class Builder < OmniAuth::Builder
-    class ArgumentError < StandardError; end
+  class Builder < Rack::Builder
+    def initialize(app, **, &)
+      @app = app
+      super
+    end
 
-    ARGUMENT_ERROR = "You must provide authorized_emails or authorized_emails_domains (or both)"
-
-    def provider(*args, authorized_emails: [], authorized_emails_domains: [], **options, &block)
-      invalid_arguments! if authorized_emails.empty? && authorized_emails_domains.empty?
-      super("google_oauth2", *args, options.merge(name: "oauth"), &block)
-
-      SidekiqWebGoogleAuth::Extension.authorized_emails = authorized_emails
-      SidekiqWebGoogleAuth::Extension.authorized_emails_domains = authorized_emails_domains
-      Sidekiq::Web.register(SidekiqWebGoogleAuth::Extension)
+    def call(env)
+      accept?(env) ? admit(env) : deny(env)
     end
 
     private
 
-    def invalid_arguments!
-      raise ArgumentError.new(ARGUMENT_ERROR)
+    def accept?(env)
+      return true if env["PATH_INFO"].start_with?("/auth")
+      session(env)[:authenticated]
+    end
+
+    def admit(env)
+      @app.call(env)
+    end
+
+    def deny(env)
+      [302, { "location" => "#{env["SCRIPT_NAME"]}/auth/page" }, ["Found"]]
+    end
+
+    def session(env)
+      env["rack.session"]
     end
   end
 end

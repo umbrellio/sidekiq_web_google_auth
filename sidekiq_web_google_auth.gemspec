@@ -2,14 +2,14 @@
 
 Gem::Specification.new do |spec|
   spec.name          = "sidekiq_web_google_auth"
-  spec.version       = "0.1.2"
+  spec.version       = "0.2.3"
   spec.authors       = ["Igor Kir"]
   spec.email         = ["igor.kir@cadolabs.io"]
 
   spec.summary       = "Google OAuth for Sidekiq::Web"
   spec.homepage      = "https://github.com/umbrellio/sidekiq_web_google_auth"
   spec.license       = "MIT"
-  spec.required_ruby_version = Gem::Requirement.new(">= 2.7.0")
+  spec.required_ruby_version = Gem::Requirement.new(">= 3.3.2")
 
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["source_code_uri"] = "https://github.com/umbrellio/sidekiq_web_google_auth"
@@ -23,13 +23,7 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_runtime_dependency "omniauth"
-  spec.add_runtime_dependency "omniauth-google-oauth2"
-
-  spec.add_development_dependency "rack-test"
-  spec.add_development_dependency "rspec"
-  spec.add_development_dependency "rubocop-config-umbrellio"
-  spec.add_development_dependency "sidekiq"
-  spec.add_development_dependency "simplecov"
-  spec.add_development_dependency "simplecov-lcov"
+  spec.add_dependency "omniauth"
+  spec.add_dependency "omniauth-google-oauth2"
+  spec.add_dependency "sidekiq"
 end
