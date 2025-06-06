@@ -14,7 +14,7 @@ module SidekiqWebGoogleAuth
         authorized_emails_domains.empty? || authorized_emails_domains.include?(email[/(?<=@).+/])
       end
 
-      def registered(app) # rubocop:disable Metrics/MethodLength
+      def registered(app)
         app.get "/auth/page" do
           "Please <a href='#{root_path}auth/oauth'>authenticate via Google</a>."
         end

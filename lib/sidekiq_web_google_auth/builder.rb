@@ -4,8 +4,9 @@ require_relative "extension"
 
 module SidekiqWebGoogleAuth
   class Builder < Rack::Builder
-    def initialize(app, _options = nil)
+    def initialize(app, **, &)
       @app = app
+      super
     end
 
     def call(env)
@@ -24,7 +25,7 @@ module SidekiqWebGoogleAuth
     end
 
     def deny(env)
-      [302, { "Location" => "#{env["SCRIPT_NAME"]}/auth/page" }, ["Found"]]
+      [302, { "location" => "#{env["SCRIPT_NAME"]}/auth/page" }, ["Found"]]
     end
 
     def session(env)

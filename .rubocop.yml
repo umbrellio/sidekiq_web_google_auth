@@ -3,7 +3,7 @@ inherit_gem:
 
 AllCops:
   DisplayCopNames: true
-  TargetRubyVersion: 3.4
+  TargetRubyVersion: 3.3.2
 
 Naming/FileName:
   Exclude:

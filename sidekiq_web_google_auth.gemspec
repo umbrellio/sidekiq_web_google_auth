@@ -23,13 +23,7 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_runtime_dependency "omniauth"
-  spec.add_runtime_dependency "omniauth-google-oauth2"
-
-  spec.add_development_dependency "rack-test"
-  spec.add_development_dependency "rspec"
-  spec.add_development_dependency "rubocop-config-umbrellio"
-  spec.add_development_dependency "sidekiq"
-  spec.add_development_dependency "simplecov"
-  spec.add_development_dependency "simplecov-lcov"
+  spec.add_dependency "omniauth"
+  spec.add_dependency "omniauth-google-oauth2"
+  spec.add_dependency "sidekiq"
 end
