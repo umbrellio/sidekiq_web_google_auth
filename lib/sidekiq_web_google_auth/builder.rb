@@ -4,10 +4,6 @@ require_relative "extension"
 
 module SidekiqWebGoogleAuth
   class Builder < Rack::Builder
-    class ArgumentError < StandardError; end
-
-    ARGUMENT_ERROR = "You must provide authorized_emails or authorized_emails_domains (or both)"
-
     def initialize(app, _options = nil)
       @app = app
     end
@@ -33,10 +29,6 @@ module SidekiqWebGoogleAuth
 
     def session(env)
       env["rack.session"]
-    end
-
-    def invalid_arguments!
-      raise ArgumentError.new(ARGUMENT_ERROR)
     end
   end
 end
