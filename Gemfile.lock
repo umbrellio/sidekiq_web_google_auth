@@ -4,7 +4,7 @@ PATH
     sidekiq_web_google_auth (0.2.4)
       omniauth
       omniauth-google-oauth2
-      sidekiq
+      sidekiq (>= 8)
 
 GEM
   remote: https://rubygems.org/

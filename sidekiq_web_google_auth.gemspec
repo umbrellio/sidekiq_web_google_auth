@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |spec|
   spec.name          = "sidekiq_web_google_auth"
-  spec.version       = "0.2.4"
+  spec.version       = "0.2.5"
   spec.authors       = ["Igor Kir"]
   spec.email         = ["igor.kir@cadolabs.io"]
 
@@ -25,5 +25,5 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "omniauth"
   spec.add_dependency "omniauth-google-oauth2"
-  spec.add_dependency "sidekiq"
+  spec.add_dependency "sidekiq", ">= 8"
 end
